@@ -95,8 +95,12 @@ def joonesta_graafik():
                 continue
             lisa_punkt(punkt, (x * suurendus) + suurus / 2, (-y_väärtus) + suurus / 2)
 
-            joonista_joon(punkt, x, y)
-
+            if len(punkt)>=4:
+                if abs(punkt[1]-punkt[3])<300:
+                    joonista_joon(punkt, x, y)
+                else:
+                    pass
+                
             #if kiirendus(y, x) != None:
             #   tahvel.create_oval(x * suurendus - 2, -y_väärtus - 2, x * suurendus + 2, -y_väärtus + 2, fill = "pink");
             eelmine_punkt = []
