@@ -59,7 +59,7 @@ def lisa_punkt(list, x, y):
     list.append(y)
 
 def joonista_joon(punktid, x, y):
-    global näita_tõusu
+    global näita_tõusu, jooni
     if len(punktid) != 4:
         return
     värv = "Blue"
@@ -68,26 +68,30 @@ def joonista_joon(punktid, x, y):
         if tõus(y, x) > 0:
             värv = "Green"
     tahvel.create_line(punktid, width = 2, fill = värv)
+    jooni+=1
 
 def joonesta_graafik():
-    global fun_number
+    global fun_number, x_vahe, jooni
+    jooni = 0
     y = sisendiruut_joonesta.get()
     fun_number += 1
     funktsioonide_kast.insert(END, str(fun_number)+". y = "+str(y))
 
     eelmine_punkt = []
-    x = -suurus/2;
-    while x <= suurus/2:
-        try:            
+    x = -round(suurus/2, 2);
+    while x <= round(suurus/2, 2):
+        try:
+            if round(suurus/2, 2)-x_vahe>x>-round(suurus/2, 2)+x_vahe and tõus(y, x) == 0:
+                raise Exception
+            
             punkt = []
-            try:
+            if len(eelmine_punkt) >= 2:
                 lisa_punkt(punkt, eelmine_punkt[0], eelmine_punkt[1])
-            except:
-                punkt = []
-
+            
             y_väärtus = funktsiooni_väärtus(y, x) * suurendus;
             if y_väärtus < -suurus*1.25 or y_väärtus > suurus*1.25:
-                x += 0.05
+                x += x_vahe
+                x = round(x, 2)
                 continue
             lisa_punkt(punkt, (x * suurendus) + suurus / 2, (-y_väärtus) + suurus / 2)
 
@@ -101,9 +105,17 @@ def joonesta_graafik():
             except:
                 lisa_punkt(eelmine_punkt, punkt[0], punkt[1])
         except:
-            x += 0.05 #/ max(1 + tõus(y, x), 0.1)
-            continue;
-        x += 0.05 #/ max(1 + tõus(y, x), 0.1)
+            x += x_vahe
+            x = round(x, 2)
+            if x == 0:
+                x = 10**(-120)
+                y_väärtus = funktsiooni_väärtus(y, x) * suurendus;
+                lisa_punkt(punkt, (x * suurendus) + suurus / 2, (-y_väärtus) + suurus / 2)
+                lisa_punkt(eelmine_punkt, punkt[0], punkt[1])
+            continue
+        x += x_vahe
+        x = round(x, 2)
+    print("Joonistati", jooni, "joont")
 
 def joonista_teljed():
     nihe = (suurus / suurendus - floor(suurus / suurendus)) * suurendus
@@ -116,14 +128,16 @@ def joonista_teljed():
     tahvel.move(ALL, suurus / 2, suurus / 2)
 
 def puhasta():
-    global fun_number,funktsioonid
+    global fun_number
     tahvel.delete(ALL)
     joonista_teljed()
     funktsioonide_kast.delete(0,END)
     fun_number = 0
 suurendus = 10
+x_vahe = 0.1
 suurus = 500
 fun_number = 0
+jooni = 0
 
 raam = Tk()
 raam.configure(background="beige")
