@@ -30,7 +30,8 @@ def tõus(y, x):
         y0 = funktsiooni_väärtus(y, x - 0.1);
         y1 = funktsiooni_väärtus(y, x);
         y2 = funktsiooni_väärtus(y, x + 0.1);
-        if (y1 > y0 and y1 > y2) or (y1 < y0 and y1 < y2):
+        #if (y1 > y0 and y1 > y2) or (y1 < y0 and y1 < y2):
+        if y0<y1>y2 or y0>y1<y2:    
             return 0
         return  y2 - y1;
     except:
@@ -40,7 +41,8 @@ def kiirendus(y, x):
         k0 = tõus(y, x - 0.1);
         k1 = tõus(y, x);
         k2 = tõus(y, x + 0.1);
-        if (k1 > k0 and k1 > k2) or (k1 < k0 and k1 < k2):
+        #if (k1 > k0 and k1 > k2) or (k1 < k0 and k1 < k2):
+        if k0<k1>k2 or k0>k1<k2:
             return x*suurendus
         return None
     except:
@@ -68,7 +70,7 @@ def joonista_joon(punktid, x, y):
         if tõus(y, x) > 0:
             värv = "Green"
     tahvel.create_line(punktid, width = 2, fill = värv)
-    jooni+=1
+    jooni += 1
 
 def joonesta_graafik():
     global fun_number, x_vahe, jooni
@@ -98,8 +100,7 @@ def joonesta_graafik():
             if len(punkt)>=4:
                 if abs(punkt[1]-punkt[3])<300:
                     joonista_joon(punkt, x, y)
-
-                
+            
             #if kiirendus(y, x) != None:
             #   tahvel.create_oval(x * suurendus - 2, -y_väärtus - 2, x * suurendus + 2, -y_väärtus + 2, fill = "pink");
             eelmine_punkt = []
@@ -117,7 +118,6 @@ def joonesta_graafik():
                 lisa_punkt(eelmine_punkt, punkt[0], punkt[1])
             continue
         x += x_vahe
-        x = round(x, 2)
     print("Joonistati", jooni, "joont")
 
 def joonista_teljed():
@@ -168,7 +168,7 @@ Button(raam, text="Puhasta", command=puhasta).grid(column=1, row=1, columnspan=2
 
 Label(raam, text = "Valikud", background = "beige", foreground = "black").grid(column=1, row=0, columnspan=2, pady=60, sticky=N)
 näita_tõusu = IntVar()
-Checkbutton(raam, text="Näita tõusu", variable=näita_tõusu).grid(row=0, column=1, pady=80, sticky=(N, W))
+Checkbutton(raam, text="Näita tõusu", background = "beige", variable=näita_tõusu).grid(row=0, column=1, pady=80, sticky=(N, W))
 
 Label(raam, text = """Juhend:
 Astendamine: pow(*astendatav*, *astendaja*)
