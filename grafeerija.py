@@ -72,6 +72,19 @@ def joonista_joon(punktid, x, y):
     tahvel.create_line(punktid, width = 2, fill = värv)
     jooni += 1
 
+def pikendused(punkt, suund, x,y):
+    if suund == "n":
+        a,b = -500, 750
+    elif suund == "s":
+        a,b = 750, -500
+    pikenduse_punkt = []
+    lisa_punkt(pikenduse_punkt, punkt[0], punkt[1])
+    lisa_punkt(pikenduse_punkt, (punkt[0]+punkt[2])/2, a)
+    joonista_joon(pikenduse_punkt, x, y)
+    pikenduse_punkt[-1] = b
+    pikenduse_punkt[0], pikenduse_punkt[1] = punkt[2], punkt[3]
+    joonista_joon(pikenduse_punkt, x, y)
+
 def joonesta_graafik():
     global fun_number, x_vahe, jooni
     jooni = 0
@@ -98,9 +111,14 @@ def joonesta_graafik():
             lisa_punkt(punkt, (x * suurendus) + suurus / 2, (-y_väärtus) + suurus / 2)
 
             if len(punkt)>=4:
-                if abs(punkt[1]-punkt[3])<300:
+                if abs(punkt[1]-punkt[3])<70:    
                     joonista_joon(punkt, x, y)
-            
+                else:
+                    if (punkt[1]-punkt[3])<0:
+                        pikendused(punkt, "n", x,y)
+                    elif (punkt[1]-punkt[3])>0:
+                        pikendused(punkt, "s", x,y)
+ 
             #if kiirendus(y, x) != None:
             #   tahvel.create_oval(x * suurendus - 2, -y_väärtus - 2, x * suurendus + 2, -y_väärtus + 2, fill = "pink");
             eelmine_punkt = []
