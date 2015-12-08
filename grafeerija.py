@@ -116,14 +116,13 @@ def joonesta_graafik():
                 continue
             lisa_punkt(punkt, (x * suurendus) + suurus / 2, (-y_väärtus) + suurus / 2)
 
-<<<<<<< HEAD
             if len(punkt) >= 4:
-                if abs(punkt[1]-punkt[3])<300:
+                if abs(punkt[1]-punkt[3])<70:
                     joonista_joon(punkt, x, y)
             
             if näita_käänupunkte.get() == 1 and kiirendus(y, x) != None:
                tahvel.create_oval(x * suurendus - 2, -y_väärtus - 2 + suurus / 2, x * suurendus + 2, -y_väärtus + 2 + suurus / 2, fill = "pink");
-=======
+
             if len(punkt)>=4:
                 if abs(punkt[1]-punkt[3])<70:    
                     joonista_joon(punkt, x, y)
@@ -132,10 +131,7 @@ def joonesta_graafik():
                         pikendused(punkt, "n", x,y)
                     elif (punkt[1]-punkt[3])>0:
                         pikendused(punkt, "s", x,y)
- 
-            #if kiirendus(y, x) != None:
-            #   tahvel.create_oval(x * suurendus - 2, -y_väärtus - 2, x * suurendus + 2, -y_väärtus + 2, fill = "pink");
->>>>>>> origin/master
+
             eelmine_punkt = []
             try:
                 lisa_punkt(eelmine_punkt, punkt[2], punkt[3])
@@ -182,7 +178,7 @@ def puhasta():
     joonista_teljed()
     funktsioonide_kast.delete(0,END)
     fun_number = 0
-suurendus = 20
+suurendus = 10
 x_vahe = 0.1
 suurus = 500
 fun_number = 0
