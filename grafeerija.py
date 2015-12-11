@@ -15,10 +15,10 @@ def mouse_wheel(event):
     d = event.delta
     if d < 0 and scale - 0.1 > 1.0:
         scale -= 0.1
-        tahvel.scale(ALL, 0, 0, 0.9, 0.9)
+        tahvel.scale(ALL, event.x, event.y, 0.9, 0.9)
     elif d > 0 and scale + 0.1 < 2:
         scale += 0.1
-        tahvel.scale(ALL, 0, 0, 1.1, 1.1)
+        tahvel.scale(ALL, event.x, event.y, 1.1, 1.1)
     tahvel.config(scrollregion=(-(suurus//2)*scale, -(suurus//2)*scale, (suurus+suurus//2)*scale, (suurus+suurus//2)*scale))
 # ---------------------------
 
@@ -111,8 +111,8 @@ def joonesta_graafik():
     funktsioonide_kast.insert(END, str(fun_number)+". y = "+str(y))
 
     eelmine_punkt = []
-    x = -round(suurus/2, 2);
-    while x <= round(suurus/2, 2):
+    x = -round(suurus/suurendus, 2);
+    while x <= round(suurus/suurendus, 2):
         try:
             if round(suurus/2, 2)-x_vahe>x>-round(suurus/2, 2)+x_vahe and tõus(y, x) == 0:
                 raise Exception
@@ -150,13 +150,6 @@ def joonesta_graafik():
         except:
             x += x_vahe
             x = round(x, 2)
-            if x == 0:
-                x = 10**(-120)
-                y_väärtus = funktsiooni_väärtus(y, x) * suurendus;
-                lisa_punkt(punkt, (x * suurendus) + suurus / 2, (-y_väärtus) + suurus / 2)
-                lisa_punkt(eelmine_punkt, punkt[0], punkt[1])
-                x += x_vahe
-                x = round(x, 2)
             continue
         x += x_vahe
     print("Joonistati", jooni, "joont")
