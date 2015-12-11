@@ -174,16 +174,25 @@ def joonesta_graafik():
 
 def joonista_teljed():
     nihe = (suurus / suurendus - floor(suurus / suurendus)) * suurendus
-    for line_y in range(-suurus, suurus, suurendus):
-        tahvel.create_line(-suurus, line_y + nihe, suurus, line_y + nihe, fill = "gray")
-        nr = round(line_y / suurendus)
+    y = -suurus;
+    while y < suurus:
+        tahvel.create_line(-suurus, y + nihe, suurus, y + nihe, fill = "gray")
+        nr = round(y / suurendus)
         if nr != 0:
             tahvel.create_text(-8, line_y + nihe, text = nr, font = ("Verdana", 5))
     for line_x in range(-suurus, suurus, suurendus):
         tahvel.create_line(line_x + nihe, -suurus, line_x + nihe, suurus, fill = "gray")
         nr = round(line_x / suurendus)
+            tahvel.create_text(-8, y + nihe, text = nr, font = ("Verdana", 5))
+        y += suurendus
+    x = -suurus;
+    while x < suurus:
+        tahvel.create_line(x + nihe, -suurus, x + nihe, suurus, fill = "gray")
+        nr = round(x / suurendus)
         if nr != 0:
             tahvel.create_text(line_x + nihe, 8, text = nr, font = ("Verdana", 5))
+            tahvel.create_text(x + nihe, 8, text = nr, font = ("Verdana", 5))
+        x += suurendus
     tahvel.create_line(0, suurus, 0, -suurus, arrow = LAST)
     tahvel.create_line(-suurus, 0, suurus, 0, arrow = LAST)
     tahvel.move(ALL, suurus / 2, suurus / 2)
