@@ -12,25 +12,14 @@ def mouse_onMove(event):
 
 def mouse_wheel(event):
     global tahvel, scale
-    #if event.num == 4 or event.delta == -120 or event.num == 5 or event.delta == 120:
-        #suurendus += 0.01 * event.delta
-     #   tahvel.scale("all", 0, 0, 2, 5)
-
-     #   print(suurendus)
-     #   joonista_teljed()
-     #   puhasta()
     d = event.delta
-    if d < 0 and scale - 0.1 > 1.5:
-        t = 0.9
+    if d < 0 and scale - 0.1 > 1.0:
         scale -= 0.1
-        tahvel.scale(ALL, 0, 0, t, t)
+        tahvel.scale(ALL, 0, 0, 0.9, 0.9)
     elif d > 0 and scale + 0.1 < 2:
-        t = 1.1
         scale += 0.1
-        tahvel.scale(ALL, 0, 0, t, t)
-    print(scale)
+        tahvel.scale(ALL, 0, 0, 1.1, 1.1)
     tahvel.config(scrollregion=(-(suurus//2)*scale, -(suurus//2)*scale, (suurus+suurus//2)*scale, (suurus+suurus//2)*scale))
-    #suurendus = round(max(min(suurendus, 19), 6), 2)
 # ---------------------------
 
 # Lisafunktsioonid
@@ -179,10 +168,6 @@ def joonista_teljed():
         tahvel.create_line(-suurus, y + nihe, suurus, y + nihe, fill = "gray")
         nr = round(y / suurendus)
         if nr != 0:
-            tahvel.create_text(-8, line_y + nihe, text = nr, font = ("Verdana", 5))
-    for line_x in range(-suurus, suurus, suurendus):
-        tahvel.create_line(line_x + nihe, -suurus, line_x + nihe, suurus, fill = "gray")
-        nr = round(line_x / suurendus)
             tahvel.create_text(-8, y + nihe, text = nr, font = ("Verdana", 5))
         y += suurendus
     x = -suurus;
@@ -190,7 +175,6 @@ def joonista_teljed():
         tahvel.create_line(x + nihe, -suurus, x + nihe, suurus, fill = "gray")
         nr = round(x / suurendus)
         if nr != 0:
-            tahvel.create_text(line_x + nihe, 8, text = nr, font = ("Verdana", 5))
             tahvel.create_text(x + nihe, 8, text = nr, font = ("Verdana", 5))
         x += suurendus
     tahvel.create_line(0, suurus, 0, -suurus, arrow = LAST)
@@ -253,8 +237,5 @@ tahvel.bind('<ButtonPress-1>', mouse_onMove)
 tahvel.bind('<B1-Motion>', mouse_onLeftDrag)
 # Windowsi jaoks
 tahvel.bind('<MouseWheel>', mouse_wheel)
-# Linuxi jaoks
-tahvel.bind('<Button-4>', mouse_wheel)
-tahvel.bind('<Button-5>', mouse_wheel)
 tahvel.focus();
 raam.mainloop();
