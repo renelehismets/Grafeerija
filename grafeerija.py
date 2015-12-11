@@ -79,10 +79,11 @@ def joonista_joon(punktid, x, y):
     jooni += 1
 
 def pikendused(punkt, suund, x,y):
+    # n tähendab seda, et funktsiooni graafik läheb lõpmatusse, katkeb, ja algab uuesti - lõpmatusest (vasakult paremale vaadates)
     if suund == "n":
-        a,b = -500, 750
+        a,b = -250, 750
     elif suund == "s":
-        a,b = 750, -500
+        a,b = 750, -250
     pikenduse_punkt = []
     lisa_punkt(pikenduse_punkt, punkt[0], punkt[1])
     lisa_punkt(pikenduse_punkt, (punkt[0]+punkt[2])/2, a)
@@ -116,20 +117,18 @@ def joonesta_graafik():
                 continue
             lisa_punkt(punkt, (x * suurendus) + suurus / 2, (-y_väärtus) + suurus / 2)
 
-            if len(punkt) >= 4:
-                if abs(punkt[1]-punkt[3])<70:
-                    joonista_joon(punkt, x, y)
+            
             
             if näita_käänupunkte.get() == 1 and kiirendus(y, x) != None:
                tahvel.create_oval(x * suurendus - 2, -y_väärtus - 2 + suurus / 2, x * suurendus + 2, -y_väärtus + 2 + suurus / 2, fill = "pink");
 
             if len(punkt)>=4:
-                if abs(punkt[1]-punkt[3])<70:    
+                if abs(punkt[1]-punkt[3])<9*suurendus:    
                     joonista_joon(punkt, x, y)
                 else:
-                    if (punkt[1]-punkt[3])<0:
+                    if -2000<(punkt[1]-punkt[3])<0:
                         pikendused(punkt, "n", x,y)
-                    elif (punkt[1]-punkt[3])>0:
+                    elif 2000>(punkt[1]-punkt[3])>0:
                         pikendused(punkt, "s", x,y)
 
             eelmine_punkt = []
@@ -145,6 +144,8 @@ def joonesta_graafik():
                 y_väärtus = funktsiooni_väärtus(y, x) * suurendus;
                 lisa_punkt(punkt, (x * suurendus) + suurus / 2, (-y_väärtus) + suurus / 2)
                 lisa_punkt(eelmine_punkt, punkt[0], punkt[1])
+                x += x_vahe
+                x = round(x, 2)
             continue
         x += x_vahe
     print("Joonistati", jooni, "joont")
@@ -178,6 +179,7 @@ def puhasta():
     joonista_teljed()
     funktsioonide_kast.delete(0,END)
     fun_number = 0
+
 suurendus = 10
 x_vahe = 0.1
 suurus = 500
