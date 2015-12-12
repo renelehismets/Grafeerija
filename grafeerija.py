@@ -99,6 +99,7 @@ def joonesta_graafik():
     global fun_number, x_vahe, jooni
     jooni = 0
     y = sisendiruut_joonesta.get()
+    if y == "": return
     fun_number += 1
     funktsioonide_kast.insert(END, str(fun_number)+". y = "+str(y))
 
