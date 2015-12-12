@@ -9,17 +9,6 @@ def mouse_onLeftDrag(event):
 def mouse_onMove(event):
     global tahvel;
     tahvel.scan_mark(event.x, event.y)
-
-def mouse_wheel(event):
-    global tahvel, scale
-    d = event.delta
-    if d < 0 and scale - 0.1 > 1.0:
-        scale -= 0.1
-        tahvel.scale(ALL, event.x, event.y, 0.9, 0.9)
-    elif d > 0 and scale + 0.1 < 2:
-        scale += 0.1
-        tahvel.scale(ALL, event.x, event.y, 1.1, 1.1)
-    tahvel.config(scrollregion=(-(suurus//2)*scale, -(suurus//2)*scale, (suurus+suurus//2)*scale, (suurus+suurus//2)*scale))
 # ---------------------------
 
 # Lisafunktsioonid
@@ -28,6 +17,9 @@ def cot(x):
 
 def sec(x):
     return 1 / cos(x)
+
+def csc(x):
+    return 1 / sin(x)
 
 def fact(n, m = 1):
     if n <= 0: return m
@@ -68,7 +60,7 @@ def kiirendus(y, x):
         k1 = tõus(y, x);
         k2 = tõus(y, x + x_vahe);
         if k0<k1>k2 or k0>k1<k2:
-            return x * suurendus
+            return x * suurendus.get()
         return None
     except:
         return None
@@ -111,8 +103,8 @@ def joonesta_graafik():
     funktsioonide_kast.insert(END, str(fun_number)+". y = "+str(y))
 
     eelmine_punkt = []
-    x = -round(suurus/suurendus, 2);
-    while x <= round(suurus/suurendus, 2):
+    x = -round(suurus/suurendus.get(), 2);
+    while x <= round(suurus/suurendus.get(), 2):
         try:
             if round(suurus/2, 2)-x_vahe>x>-round(suurus/2, 2)+x_vahe and tõus(y, x) == 0:
                 raise Exception
@@ -121,20 +113,20 @@ def joonesta_graafik():
             if len(eelmine_punkt) >= 2:
                 lisa_punkt(punkt, eelmine_punkt[0], eelmine_punkt[1])
             
-            y_väärtus = funktsiooni_väärtus(y, x) * suurendus;
+            y_väärtus = funktsiooni_väärtus(y, x) * suurendus.get();
             if y_väärtus < -suurus*1.25 or y_väärtus > suurus*1.25:
                 x += x_vahe
                 x = round(x, 2)
                 continue
-            lisa_punkt(punkt, (x * suurendus) + suurus / 2, (-y_väärtus) + suurus / 2)
+            lisa_punkt(punkt, (x * suurendus.get()) + suurus / 2, (-y_väärtus) + suurus / 2)
 
             
             
             if näita_käänupunkte.get() == 1 and kiirendus(y, x) != None:
-               tahvel.create_oval(x * suurendus - 2, -y_väärtus - 2 + suurus / 2, x * suurendus + 2, -y_väärtus + 2 + suurus / 2, fill = "pink");
+               tahvel.create_oval(x * suurendus.get() - 2, -y_väärtus - 2 + suurus / 2, x * suurendus.get() + 2, -y_väärtus + 2 + suurus / 2, fill = "pink");
 
             if len(punkt)>=4:
-                if abs(punkt[1]-punkt[3])<9*suurendus:    
+                if abs(punkt[1]-punkt[3])<9*suurendus.get():    
                     joonista_joon(punkt, x, y)
                 else:
                     if -2000<(punkt[1]-punkt[3])<0:
@@ -155,21 +147,21 @@ def joonesta_graafik():
     print("Joonistati", jooni, "joont")
 
 def joonista_teljed():
-    nihe = (suurus / suurendus - floor(suurus / suurendus)) * suurendus
+    nihe = (suurus / suurendus.get() - floor(suurus / suurendus.get())) * suurendus.get()
     y = -suurus;
     while y < suurus:
         tahvel.create_line(-suurus, y + nihe, suurus, y + nihe, fill = "gray")
-        nr = round(y / suurendus)
+        nr = round(y / suurendus.get())
         if nr != 0:
             tahvel.create_text(-8, y + nihe, text = nr, font = ("Verdana", 5))
-        y += suurendus
+        y += suurendus.get()
     x = -suurus;
     while x < suurus:
         tahvel.create_line(x + nihe, -suurus, x + nihe, suurus, fill = "gray")
-        nr = round(x / suurendus)
+        nr = round(x / suurendus.get())
         if nr != 0:
             tahvel.create_text(x + nihe, 8, text = nr, font = ("Verdana", 5))
-        x += suurendus
+        x += suurendus.get()
     tahvel.create_line(0, suurus, 0, -suurus, arrow = LAST)
     tahvel.create_line(-suurus, 0, suurus, 0, arrow = LAST)
     tahvel.move(ALL, suurus / 2, suurus / 2)
@@ -178,17 +170,18 @@ def juhend():
     messagebox.showinfo("Juhend", """Astendamine: pow(*astendatav*, *astendaja*)
 Logaritm: log(*logartimitav*, *logaritmi alus*)
 Naturaallogaritm: log(*logaritmitav*)
-Trigonomeertilised funktsioonid: sin/cos/tan/cot(*argument*)
+Trigonomeertilised funktsioonid: sin/cos/tan/cot/sec/csc(*argument*)
 Arkusfunktsioonid: asin/acos/atan/acot(*argument*)""")
 
-def puhasta():
+def puhasta(*a):
     global fun_number
     tahvel.delete(ALL)
     joonista_teljed()
     funktsioonide_kast.delete(0,END)
     fun_number = 0
 
-suurendus = 10
+SUURENDUSED = (10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+
 x_vahe = 0.1
 suurus = 500
 fun_number = 0
@@ -196,6 +189,10 @@ jooni = 0
 scale = 1.0
 
 raam = Tk()
+
+suurendus = IntVar()
+suurendus.set(SUURENDUSED[-1])
+
 raam.configure(background="beige")
 raam.title("Graafiku joonestaja")
 tahvel = Canvas(raam, width = suurus, height = suurus, background = "lightgray", scrollregion=(-suurus//2, -suurus//2, suurus+suurus//2, suurus+suurus//2))
@@ -213,6 +210,9 @@ keriruut.config(command=funktsioonide_kast.yview)
 
 joonista_teljed()
 
+Label(raam, text = "Suurendus", background = "Beige", foreground = "Black").grid(row=0, column=1, columnspan=2, pady=135, sticky=(N,W))
+OptionMenu(raam, suurendus, *reversed(SUURENDUSED), command=puhasta).grid(row=0, column=1, columnspan=2, pady=130, sticky=(N,E))
+
 Label(raam, text = "Sisend", background = "beige", foreground = "black").grid(column=1, row=0, columnspan=2, sticky=N)
 sisendiruut_joonesta = Entry(raam, width=20);
 sisendiruut_joonesta.grid(column=1, row=0, pady=23, sticky=(N,W))
@@ -228,7 +228,5 @@ Checkbutton(raam, text="Näita käänupunkte", background = "beige", variable=n�
 
 tahvel.bind('<ButtonPress-1>', mouse_onMove)
 tahvel.bind('<B1-Motion>', mouse_onLeftDrag)
-# Windowsi jaoks
-tahvel.bind('<MouseWheel>', mouse_wheel)
 tahvel.focus();
 raam.mainloop();
