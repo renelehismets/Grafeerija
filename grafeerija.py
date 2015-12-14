@@ -108,8 +108,6 @@ def joonesta_graafik(y=''):
     x = -round(suurus/suurendus.get(), 2);
     while x <= round(suurus/suurendus.get(), 2):
         try:
-            if round(suurus/2, 2)-x_vahe>x>-round(suurus/2, 2)+x_vahe and tõus(y, x) == 0:
-                raise Exception
             
             punkt = []
             if len(eelmine_punkt) >= 2:
@@ -121,8 +119,6 @@ def joonesta_graafik(y=''):
                 x = round(x, 2)
                 continue
             lisa_punkt(punkt, (x * suurendus.get()) + suurus / 2, (-y_väärtus) + suurus / 2)
-
-            
             
             if näita_käänupunkte.get() == 1 and kiirendus(y, x) != None:
                tahvel.create_oval(x * suurendus.get() - 2, -y_väärtus - 2 + suurus / 2, x * suurendus.get() + 2, -y_väärtus + 2 + suurus / 2, fill = "pink");
@@ -143,6 +139,13 @@ def joonesta_graafik(y=''):
                 lisa_punkt(eelmine_punkt, punkt[0], punkt[1])
         except:
             x += x_vahe
+            if round(x) == 0:
+                x = 10**(-20)
+                y_väärtus = funktsiooni_väärtus(y, x) * suurendus.get();
+                lisa_punkt(punkt, (x * suurendus.get()) + suurus / 2, y_väärtus + suurus / 2)
+                lisa_punkt(eelmine_punkt, punkt[0], punkt[1])
+                joonista_joon(punkt, x, y)
+                continue
             x = round(x, 2)
             continue
         x += x_vahe
