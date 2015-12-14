@@ -95,10 +95,11 @@ def pikendused(punkt, suund, x,y):
     pikenduse_punkt[0], pikenduse_punkt[1] = punkt[2], punkt[3]
     joonista_joon(pikenduse_punkt, x, y)
 
-def joonesta_graafik():
+def joonesta_graafik(y=''):
     global fun_number, x_vahe, jooni
     jooni = 0
-    y = sisendiruut_joonesta.get()
+    if y == "":
+        y = sisendiruut_joonesta.get()
     if y == "": return
     fun_number += 1
     funktsioonide_kast.insert(END, str(fun_number)+". y = "+str(y))
@@ -174,12 +175,21 @@ Naturaallogaritm: log(*logaritmitav*)
 Trigonomeertilised funktsioonid: sin/cos/tan/cot/sec/csc(*argument*)
 Arkusfunktsioonid: asin/acos/atan/acot(*argument*)""")
 
-def puhasta(*a):
+def puhasta():
     global fun_number
     tahvel.delete(ALL)
     joonista_teljed()
     funktsioonide_kast.delete(0,END)
     fun_number = 0
+
+def uuenda_mõõtkava(*a):
+    funList = funktsioonide_kast.get(0,END)
+    puhasta()
+    for fun in funList:
+        fun = fun[7:]
+        fun = format(fun)
+        joonesta_graafik(fun)
+    
 
 SUURENDUSED = (10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
 
@@ -212,7 +222,7 @@ keriruut.config(command=funktsioonide_kast.yview)
 joonista_teljed()
 
 Label(raam, text = "Suurendus", background = "Beige", foreground = "Black").grid(row=0, column=1, columnspan=2, pady=135, sticky=(N,W))
-OptionMenu(raam, suurendus, *reversed(SUURENDUSED), command=puhasta).grid(row=0, column=1, columnspan=2, pady=130, sticky=(N,E))
+OptionMenu(raam, suurendus, *reversed(SUURENDUSED), command=uuenda_mõõtkava).grid(row=0, column=1, columnspan=2, pady=130, sticky=(N,E))
 
 Label(raam, text = "Sisend", background = "beige", foreground = "black").grid(column=1, row=0, columnspan=2, sticky=N)
 sisendiruut_joonesta = Entry(raam, width=20);
