@@ -108,7 +108,7 @@ def joonesta_graafik(y=''):
     x = -round(suurus/suurendus.get(), 2);
     while x <= round(suurus/suurendus.get(), 2):
         try:
-            if round(suurus/2, 2)-x_vahe>x>-round(suurus/2, 2)+x_vahe and tõus(y, x) == 0:
+            if round(suurus/suurendus.get(), 2)-x_vahe>x>-round(suurus/suurendus.get(), 2)+x_vahe and tõus(y, x) == 0 and "floor" not in y and "ceil" not in y:
                 raise Exception
             
             punkt = []
@@ -128,12 +128,22 @@ def joonesta_graafik(y=''):
                tahvel.create_oval(x * suurendus.get() - 2, -y_väärtus - 2 + suurus / 2, x * suurendus.get() + 2, -y_väärtus + 2 + suurus / 2, fill = "pink");
 
             if len(punkt)>=4:
-                if abs(punkt[1]-punkt[3])<9*suurendus.get():    
+                print(punkt, punkt[0]-punkt[2], punkt[1]-punkt[3])
+                if abs(punkt[1]-punkt[3]) == suurendus.get():
+                    print("***")
+                    eelmine_punkt = []
+                    lisa_punkt(eelmine_punkt, punkt[2], punkt[3])
+                    continue
+                
+                elif abs(punkt[1]-punkt[3])<9*suurendus.get():    
                     joonista_joon(punkt, x, y)
                 else:
+                    #print(punkt[1]-punkt[3])
                     if -2000<(punkt[1]-punkt[3])<0:
+                        print("*")
                         pikendused(punkt, "n", x,y)
                     elif 2000>(punkt[1]-punkt[3])>0:
+                        print("!")
                         pikendused(punkt, "s", x,y)
 
             eelmine_punkt = []
