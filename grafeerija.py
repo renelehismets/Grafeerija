@@ -153,6 +153,13 @@ def joonesta_graafik(y=''):
                 lisa_punkt(eelmine_punkt, punkt[0], punkt[1])
         except:
             x += x_vahe
+            if round(x) == 0:
+                x = 10**(-20)
+                y_väärtus = funktsiooni_väärtus(y, x) * suurendus.get();
+                lisa_punkt(punkt, (x * suurendus.get()) + suurus / 2, y_väärtus + suurus / 2)
+                lisa_punkt(eelmine_punkt, punkt[0], punkt[1])
+                joonista_joon(punkt, x, y)
+                continue
             x = round(x, 2)
             continue
         x += x_vahe
