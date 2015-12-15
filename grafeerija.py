@@ -56,9 +56,11 @@ def tõus(y, x):
         return 0
 def kiirendus(y, x):
     try:
-        k0 = tõus(y, x - x_vahe);
-        k1 = tõus(y, x);
-        k2 = tõus(y, x + x_vahe);
+        #if abs(funktsiooni_väärtus(y, x - x_vahe) - funktsiooni_väärtus(y, x + x_vahe)) > suurendus.get() * x_vahe * 0.5:
+        #    return None
+        k0 = tõus(y, x - x_vahe)
+        k1 = tõus(y, x)
+        k2 = tõus(y, x + x_vahe)
         if k0<k1>k2 or k0>k1<k2:
             return x * suurendus.get()
         return None
@@ -122,29 +124,21 @@ def joonesta_graafik(y=''):
                 continue
             lisa_punkt(punkt, (x * suurendus.get()) + suurus / 2, (-y_väärtus) + suurus / 2)
 
-            
-            
-            if näita_käänupunkte.get() == 1 and kiirendus(y, x) != None:
-               tahvel.create_oval(x * suurendus.get() - 2, -y_väärtus - 2 + suurus / 2, x * suurendus.get() + 2, -y_väärtus + 2 + suurus / 2, fill = "pink");
-
             if len(punkt)>=4:
-                print(punkt, punkt[0]-punkt[2], punkt[1]-punkt[3])
                 if abs(punkt[1]-punkt[3]) == suurendus.get():
-                    print("***")
                     eelmine_punkt = []
                     lisa_punkt(eelmine_punkt, punkt[2], punkt[3])
                     continue
-                
-                elif abs(punkt[1]-punkt[3])<9*suurendus.get():    
+                elif abs(punkt[1]-punkt[3])<9*suurendus.get(): 
                     joonista_joon(punkt, x, y)
                 else:
-                    #print(punkt[1]-punkt[3])
                     if -2000<(punkt[1]-punkt[3])<0:
-                        print("*")
                         pikendused(punkt, "n", x,y)
                     elif 2000>(punkt[1]-punkt[3])>0:
-                        print("!")
                         pikendused(punkt, "s", x,y)
+                if näita_käänupunkte.get() == 1 and kiirendus(y, x) != None:
+                   tahvel.create_oval(x * suurendus.get() - 3 + suurus/2, -y_väärtus - 3 + suurus / 2, x * suurendus.get() + 3 + suurus / 2, -y_väärtus + 3 + suurus / 2, fill = "pink");
+                
 
             eelmine_punkt = []
             try:
@@ -159,6 +153,7 @@ def joonesta_graafik(y=''):
                 lisa_punkt(punkt, (x * suurendus.get()) + suurus / 2, y_väärtus + suurus / 2)
                 lisa_punkt(eelmine_punkt, punkt[0], punkt[1])
                 joonista_joon(punkt, x, y)
+                x += x_vahe*2
                 continue
             x = round(x, 2)
             continue
