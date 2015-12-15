@@ -165,14 +165,14 @@ def joonista_teljed():
     y = -suurus;
     while y < suurus:
         tahvel.create_line(-suurus, y + nihe, suurus, y + nihe, fill = "gray")
-        nr = round(y / suurendus.get())
+        nr = ceil(y / suurendus.get()) * -1
         if nr != 0:
             tahvel.create_text(-8, y + nihe, text = nr, font = ("Verdana", 5))
         y += suurendus.get()
     x = -suurus;
     while x < suurus:
         tahvel.create_line(x + nihe, -suurus, x + nihe, suurus, fill = "gray")
-        nr = round(x / suurendus.get())
+        nr = ceil(x / suurendus.get())
         if nr != 0:
             tahvel.create_text(x + nihe, 8, text = nr, font = ("Verdana", 5))
         x += suurendus.get()
