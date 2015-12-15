@@ -56,8 +56,8 @@ def tõus(y, x):
         return 0
 def kiirendus(y, x):
     try:
-        #if abs(funktsiooni_väärtus(y, x - x_vahe) - funktsiooni_väärtus(y, x + x_vahe)) > suurendus.get() * x_vahe * 0.5:
-        #    return None
+        if abs(funktsiooni_väärtus(y, x - x_vahe) - funktsiooni_väärtus(y, x + x_vahe)) > suurendus.get() * x_vahe * 0.5:
+            return None
         k0 = tõus(y, x - x_vahe)
         k1 = tõus(y, x)
         k2 = tõus(y, x + x_vahe)
@@ -203,7 +203,7 @@ def uuenda_mõõtkava(*a):
         joonesta_graafik(fun)
     
 
-SUURENDUSED = (10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+SUURENDUSED = (10, 15, 20, 25, 30, 35, 40, 45, 50)
 
 x_vahe = 0.1
 suurus = 500
@@ -214,7 +214,7 @@ scale = 1.0
 raam = Tk()
 
 suurendus = IntVar()
-suurendus.set(SUURENDUSED[-1])
+suurendus.set(SUURENDUSED[4])
 
 raam.configure(background="beige")
 raam.title("Graafiku joonestaja")
