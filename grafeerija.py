@@ -110,7 +110,7 @@ def joonesta_graafik(y=''):
     x = -round(suurus/suurendus.get(), 2);
     while x <= round(suurus/suurendus.get(), 2):
         try:
-            if round(suurus/suurendus.get(), 2)-x_vahe>x>-round(suurus/suurendus.get(), 2)+x_vahe and tõus(y, x) == 0 and "floor" not in y and "ceil" not in y:
+            if round(suurus/suurendus.get(), 2)-x_vahe>x>-round(suurus/suurendus.get(), 2)+x_vahe and tõus(y, x) == 0 and "floor" not in y and "ceil" not in y and "log" not in y:
                 raise Exception
             
             punkt = []
